@@ -1,0 +1,35 @@
+{
+    "compilerOptions": {
+	"target": "es2020",
+	"noImplicitAny": true,
+	"useDefineForClassFields": true,
+	"forceConsistentCasingInFileNames": true,
+	"module": "node18",
+	"outDir": "./dist",
+	"rootDir": "./src",
+        "sourceMap": true,
+	"declaration": true,
+	"declarationMap": true,
+	"skipLibCheck": true,
+	"isolatedModules": true,
+	"moduleDetection": "force",
+	"esModuleInterop": true,
+	"allowSyntheticDefaultImports": true,
+        "strict": true,
+	"allowUnreachableCode": false,
+	"allowUnusedLabels": false,
+	"noUnusedLocals": true,
+	"noUnusedParameters": true,
+	"exactOptionalPropertyTypes": true,
+	"noImplicitReturns": true,
+	"noFallthroughCasesInSwitch": true,
+	"noUncheckedIndexedAccess": true,
+	"noImplicitOverride": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "verbatimModuleSyntax": true,
+        "noUncheckedSideEffectImports": true,
+        "jsx": "react-jsx"
+    },
+
+    "include": ["src/**/*"]
+}

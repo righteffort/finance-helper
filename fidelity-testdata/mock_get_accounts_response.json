@@ -1,0 +1,40 @@
+{
+  "status": 200,
+  "json": {
+    "data": {
+      "getContext": {
+        "sysStatus": {
+          "backend": {
+            "account": "ok",
+            "__typename": "BackendStatus"
+          },
+          "__typename": "SysStatus"
+        },
+        "person": {
+          "assets": [
+            {
+              "acctNum": "1234",
+              "acctType": "Brokerage",
+              "preferenceDetail": {
+                "name": "Account One",
+                "__typename": "PreferenceDetail"
+              },
+              "__typename": "AcctDetail"
+            },
+            {
+              "acctNum": "5678",
+              "acctType": "Brokerage",
+              "preferenceDetail": {
+                "name": "Account Two",
+                "__typename": "PreferenceDetail"
+              },
+              "__typename": "AcctDetail"
+            }
+          ],
+          "__typename": "Person"
+        },
+        "__typename": "PersonContext"
+      }
+    }
+  }
+}

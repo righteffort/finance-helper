@@ -1,0 +1,27 @@
+{
+  "operationName": "getTransactions",
+  "variables": {
+      "isNewOrderApi": true,
+    "isSupportCrypto": true,
+    "hideDCOrders": false,
+    "acctIdList": "{{#accounts}}{{number}}{{^last}},{{/last}}{{/accounts}}",
+    "acctDetailList": [{{#accounts}}
+      {
+        "acctNum": "{{number}}",
+        "acctType": "Brokerage",
+        "name": "{{name}}"
+      }{{^last}},{{/last}}{{/accounts}}
+    ],
+    "searchCriteriaDetail": {
+      "timePeriod": 30,
+      "txnCat": null,
+      "viewType": "NON_CORE",
+      "histSortDir": "D",
+      "acctHistSort": "DATE",
+      "hasBasketName": true,
+      "txnFromDate": "{{start}}",
+      "txnToDate": "{{end}}"
+    }
+  },
+  "query": "query getTransactions($acctIdList: String, $acctDetailList: [AcctDetailList], $searchCriteriaDetail: SearchCriteriaDetail, $isNewOrderApi: Boolean! = false, $isSupportCrypto: Boolean! = false, $hideDCOrders: Boolean! = true) {\n  getTransactions(\n    acctIdList: $acctIdList\n    acctDetailList: $acctDetailList\n    searchCriteriaDetail: $searchCriteriaDetail\n    isNewOrderApi: $isNewOrderApi\n    isSupportCrypto: $isSupportCrypto\n    hideDCOrders: $hideDCOrders\n  ) {\n    backendStatus {\n      history\n      __typename\n    }\n    historys {\n      acctNum\n      orderNumber\n      intradayInd\n      description\n      date\n      amount\n      txnTypeCode\n      txnCatCode\n      txnCatDesc\n      txnSubCatCode\n      cashBalance\n      __typename\n    }\n    __typename\n  }\n}"
+}

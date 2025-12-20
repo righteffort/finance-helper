@@ -1,0 +1,25 @@
+[
+  {
+    "acct_num": "1234",
+    "date": "2025-11-28T00:00:00.000Z",
+    "description": "some description",
+    "amount": 3.14,
+    "order_number": "1729",
+    "pending": false
+  },
+  {
+    "acct_num": "1234",
+    "date": "2025-12-02T00:00:00.000Z",
+    "description": "pending description",
+    "amount": 0.01,
+    "pending": true
+  },
+  {
+    "acct_num": "5678",
+    "date": "2025-12-01T00:00:00.000Z",
+    "description": "another description",
+    "amount": -2.17,
+    "order_number": "1730",
+    "pending": false
+  }
+]

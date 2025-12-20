@@ -1,0 +1,58 @@
+{
+  "status": 200,
+  "json": {
+    "data": {
+      "getTransactions": {
+        "backendStatus": {
+          "history": "ok",
+          "__typename": "BackendStatus"
+        },
+        "historys": [
+          {
+            "acctNum": "1234",
+            "orderNumber": "1729",
+            "intradayInd": false,
+            "description": "some description",
+            "date": "Nov-28-2025",
+            "amount": "+$3.14",
+            "txnTypeCode": "IT",
+            "txnCatCode": "DV",
+            "txnCatDesc": "Dividend / Interest",
+            "txnSubCatCode": "VP",
+            "cashBalance": null,
+            "__typename": "History"
+          },
+          {
+            "acctNum": "1234",
+            "orderNumber": null,
+            "intradayInd": true,
+            "description": "pending description",
+            "date": "Dec-02-2025",
+            "amount": "+$0.01",
+            "txnTypeCode": "IT",
+            "txnCatCode": "DV",
+            "txnCatDesc": "Dividend / Interest",
+            "txnSubCatCode": "VP",
+            "cashBalance": null,
+            "__typename": "History"
+          },
+          {
+            "acctNum": "5678",
+            "orderNumber": "1730",
+            "intradayInd": false,
+            "description": "another description",
+            "date": "Dec-01-2025",
+            "amount": "-$2.17",
+            "txnTypeCode": "CT",
+            "txnCatCode": "AT",
+            "txnCatDesc": "ATM - Debit Card Activity",
+            "txnSubCatCode": "DC",
+            "cashBalance": null,
+            "__typename": "History"
+          }
+        ],
+        "__typename": "Transactions"
+      }
+    }
+  }
+}

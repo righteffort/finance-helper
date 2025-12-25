@@ -23,4 +23,4 @@ for t in transactions:
     print(f"{t.date}\t${t.amount}\t{t.description}")
 ```
 
-See [fidelity_example.py](../fidelity-example/fidelity_example.py) for a working example.
+See [fidelity_example.py](https://github.com/righteffort/finance-helper/tree/main/python/fidelity-example/fidelity_example.py) for a working example.

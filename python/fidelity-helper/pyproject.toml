@@ -1,17 +1,30 @@
 [project]
 name = "fidelity-helper"
 version = "0.1.0"
-description = "Fetch financial transactions"
+description = "Fetch Fidelity transactions"
 license = "MIT"
+license-files = ["LICENSE"]
 readme = "README.md"
 authors = [
   { name = "Ted Romer", email = "tromer@gmail.com" }
 ]
+keywords = [ "banking", "fidelity", "finance"]
 requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+
 dependencies = [
   "pydantic>=2.12.5",
   "pystache>=0.6.8",
 ]
+
+[project.urls]
+Homepage = "https://github.com/righteffort/finance-helper/tree/main/python/fidelity-helper"
+Source = "https://github.com/righteffort/finance-helper.git"
+Documentation = "https://righteffort.github.io/finance-helper/python/fidelity-helper"
+Issues = "https://github.com/righteffort/finance-helper/issues"
 
 [dependency-groups]
 dev = [

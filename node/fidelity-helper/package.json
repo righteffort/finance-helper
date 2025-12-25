@@ -1,6 +1,27 @@
 {
-  "name": "fidelity-helper",
-  "version": "0.0.1",
+  "name": "@righteffort/fidelity-helper",
+  "description": "Fetch Fidelity transactions",
+  "version": "0.1.1",
+  "author": "Ted Romer <tromer@gmail.com>",
+  "license": "MIT",
+  "keywords": [
+    "banking",
+    "fidelity",
+    "finance"
+  ],
+  "homepage": "https://github.com/righteffort/finance-helper/tree/main/node/fidelity-helper#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/righteffort/finance-helper.git",
+    "directory": "node/fidelity-helper"
+  },
+  "bugs": {
+    "url": "https://github.com/righteffort/finance-helper/issues"
+  },
+  "documentation": "https://righteffort.github.io/finance-helper/node/fidelity-helper",
+  "engines": {
+    "node": ">=20"
+  },
   "packageManager": "yarn@4.12.0",
   "type": "module",
   "main": "./dist/index.js",

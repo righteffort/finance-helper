@@ -1,4 +1,4 @@
-# fidelity-helper
+# @righteffort/fidelity-helper
 
 Retrieve Fidelity transaction data via fetch calls to fidelity.com in the context of a browser.
 
@@ -7,7 +7,7 @@ Retrieve Fidelity transaction data via fetch calls to fidelity.com in the contex
 ## Usage
 
 ```typescript
-import { Fidelity } from 'fidelity-helper';
+import { Fidelity } from '@righteffort/fidelity-helper';
 
 // In this example the callback assumes page.evaluate is provided by your browser
 // automation framework.
@@ -24,5 +24,5 @@ for (const t of transactions) {
     console.log(`${t.date.toISOString().split('T')[0]}\t$${t.amount}\t${t.description}`);
 }
 ```
-See [fidelity-example.ts](https://github.com/righteffort/finance-helper/node/fidelity-example/src/fidelity-example.ts) for a working example.
+See [fidelity-example.ts](https://github.com/righteffort/finance-helper/tree/main/node/fidelity-example/src/fidelity-example.ts) for a working example.
 

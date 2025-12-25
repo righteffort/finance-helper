@@ -1,1 +1,1 @@
-Working example of using [fidelity-helper](https://github.com/righteffort/finance-helper/tree/main/node/fidelity-helper).
+Working example of using [@righteffort/fidelity-helper](https://github.com/righteffort/finance-helper/tree/main/node/fidelity-helper).

@@ -382,6 +382,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@righteffort/fidelity-helper@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "@righteffort/fidelity-helper@workspace:."
+  dependencies:
+    "@eslint/js": "npm:^9.35.0"
+    "@js-temporal/polyfill": "npm:^0.5.1"
+    "@types/mustache": "npm:^4"
+    "@types/node": "npm:^25.0.3"
+    eslint: "npm:^9.35.0"
+    mustache: "npm:^4.2.0"
+    typedoc: "npm:^0.28.15"
+    typescript: "npm:^5.9.2"
+    typescript-eslint: "npm:^8.43.0"
+    vitest: "npm:^4.0.16"
+  languageName: unknown
+  linkType: soft
+
 "@rollup/rollup-android-arm-eabi@npm:4.54.0":
   version: 4.54.0
   resolution: "@rollup/rollup-android-arm-eabi@npm:4.54.0"
@@ -1366,23 +1383,6 @@ __metadata:
   checksum: 10c0/e345083c4306b3aed6cb8ec551e26c36bab5c511e99ea4576a16750ddc8d3240e63826cc624f5ae17ad4dc82e68a253213b60d556c11bfad064b7607847ed07f
   languageName: node
   linkType: hard
-
-"fidelity-helper@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "fidelity-helper@workspace:."
-  dependencies:
-    "@eslint/js": "npm:^9.35.0"
-    "@js-temporal/polyfill": "npm:^0.5.1"
-    "@types/mustache": "npm:^4"
-    "@types/node": "npm:^25.0.3"
-    eslint: "npm:^9.35.0"
-    mustache: "npm:^4.2.0"
-    typedoc: "npm:^0.28.15"
-    typescript: "npm:^5.9.2"
-    typescript-eslint: "npm:^8.43.0"
-    vitest: "npm:^4.0.16"
-  languageName: unknown
-  linkType: soft
 
 "file-entry-cache@npm:^8.0.0":
   version: 8.0.0

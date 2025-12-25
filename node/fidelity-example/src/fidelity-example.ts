@@ -1,6 +1,6 @@
 import puppeteer from 'puppeteer';
 import * as readline from 'readline';
-import { Fidelity } from 'fidelity-helper';
+import { Fidelity } from '@righteffort/fidelity-helper';
 import { Command } from 'commander';
 import { z } from 'zod';
 

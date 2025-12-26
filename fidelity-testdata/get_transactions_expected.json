@@ -21,5 +21,11 @@
     "amount": -2.17,
     "order_number": "1730",
     "pending": false
+  },
+  {
+    "acct_num": "1234",
+    "date": "2025-11-29T00:00:00.000Z",
+    "description": "weird amount",
+    "pending": true
   }
 ]

@@ -49,6 +49,20 @@
             "txnSubCatCode": "DC",
             "cashBalance": null,
             "__typename": "History"
+          },
+          {
+            "acctNum": "1234",
+            "orderNumber": null,
+            "intradayInd": true,
+            "description": "weird amount",
+            "date": "Nov-29-2025",
+            "amount": "--",
+            "txnTypeCode": "IT",
+            "txnCatCode": "ZZ",
+            "txnCatDesc": "Other",
+            "txnSubCatCode": "ST",
+            "cashBalance": null,
+            "__typename": "History"
           }
         ],
         "__typename": "Transactions"

@@ -1,6 +1,6 @@
 {
   "name": "@righteffort/fidelity-example",
-  "version": "1.0.0",
+  "version": "0.1.2",
   "type": "module",
   "scripts": {
     "build": "yarn lint && tsc",
@@ -10,7 +10,7 @@
   },
   "packageManager": "yarn@4.12.0",
   "dependencies": {
-    "@righteffort/fidelity-helper": "file:../fidelity-helper/package.tgz",
+    "@righteffort/fidelity-helper": "^0.1.2",
     "commander": "^14.0.2",
     "package.json": "^2.0.1",
     "puppeteer": "^24.34.0",

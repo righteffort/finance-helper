@@ -206,7 +206,7 @@ __metadata:
   resolution: "@righteffort/fidelity-example@workspace:."
   dependencies:
     "@eslint/js": "npm:^9.39.2"
-    "@righteffort/fidelity-helper": "file:../fidelity-helper/package.tgz"
+    "@righteffort/fidelity-helper": "npm:^0.1.2"
     "@types/node": "npm:^25.0.3"
     commander: "npm:^14.0.2"
     eslint: "npm:^9.39.2"
@@ -220,13 +220,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@righteffort/fidelity-helper@file:../fidelity-helper/package.tgz::locator=%40righteffort%2Ffidelity-example%40workspace%3A.":
-  version: 0.1.0
-  resolution: "@righteffort/fidelity-helper@file:../fidelity-helper/package.tgz#../fidelity-helper/package.tgz::hash=69f6d2&locator=%40righteffort%2Ffidelity-example%40workspace%3A."
+"@righteffort/fidelity-helper@npm:^0.1.2":
+  version: 0.1.2
+  resolution: "@righteffort/fidelity-helper@npm:0.1.2"
   dependencies:
     "@js-temporal/polyfill": "npm:^0.5.1"
     mustache: "npm:^4.2.0"
-  checksum: 10c0/ce03630bb73cb50a5998aaa274b2ecd4fa74a8d8408a2c0390576d71640c2ad5f150ae1ff00cd1100f78f9847827ac9a70b936b63136e086936dfe90da61993b
+  checksum: 10c0/51f3893d36c2454363ac54f66a5f0f7abfdcdfbd5592cf5ef9990de2a9c8b352d8657448135e7782e76d0228c835eb639cc8143098b30facf56ec19989277454
   languageName: node
   linkType: hard
 

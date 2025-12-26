@@ -21,8 +21,7 @@ from .fidelity_models import (
 
 
 if TYPE_CHECKING:
-    from collections.abc import Callable
-    from types import CoroutineType
+    from collections.abc import Awaitable, Callable
 
 import pystache  # pyright: ignore[reportMissingTypeStubs]
 from pydantic import ValidationError
@@ -65,7 +64,7 @@ class Fidelity:
 
     def __init__(
         self,
-        evaluator: Callable[[str], CoroutineType[Any, Any, Any]],  # pyright: ignore[reportExplicitAny]
+        evaluator: Callable[[str], Awaitable[Any]],  # pyright: ignore[reportExplicitAny]
     ) -> None:
         """Initialize new instance.
 

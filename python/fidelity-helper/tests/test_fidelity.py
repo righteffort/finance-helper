@@ -67,15 +67,16 @@ async def test_get_transactions() -> None:
     # Convert transactions to dict format for comparison
     actual: list[dict[str, str | float | bool]] = []
     for t in transactions:
-        d = {
+        d: dict[str, str | float | bool] = {
             "acct_num": t.acct_num,
             "date": f"{t.date.isoformat()}T00:00:00.000Z",
             "description": t.description,
-            "amount": t.amount,
             "pending": t.pending,
         }
         if t.order_number is not None:
             d["order_number"] = t.order_number
+        if t.amount is not None:
+            d["amount"] = t.amount
         actual.append(d)
 
     assert actual == expected

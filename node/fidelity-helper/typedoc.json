@@ -1,5 +1,6 @@
 {
   "entryPoints": ["src/index.ts"],
   "out": "../../docs/node/fidelity-helper",
+  "gitRevision": "main",
   "readme": "none"
 }

@@ -204,8 +204,8 @@ fidelity_helper    </h1>
 </span><span id="Transaction-52"><a href="#Transaction-52"><span class="linenos">52</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction date. Should be interpreted as midnight America/New_York.&quot;&quot;&quot;</span>
 </span><span id="Transaction-53"><a href="#Transaction-53"><span class="linenos">53</span></a>    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span>
 </span><span id="Transaction-54"><a href="#Transaction-54"><span class="linenos">54</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction description.&quot;&quot;&quot;</span>
-</span><span id="Transaction-55"><a href="#Transaction-55"><span class="linenos">55</span></a>    <span class="n">amount</span><span class="p">:</span> <span class="nb">float</span>
-</span><span id="Transaction-56"><a href="#Transaction-56"><span class="linenos">56</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction amount in dollars.&quot;&quot;&quot;</span>
+</span><span id="Transaction-55"><a href="#Transaction-55"><span class="linenos">55</span></a>    <span class="n">amount</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span>
+</span><span id="Transaction-56"><a href="#Transaction-56"><span class="linenos">56</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction amount in dollars. May be `None` if pending.&quot;&quot;&quot;</span>
 </span><span id="Transaction-57"><a href="#Transaction-57"><span class="linenos">57</span></a>    <span class="n">order_number</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span>
 </span><span id="Transaction-58"><a href="#Transaction-58"><span class="linenos">58</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Transaction identifier. Unique for this account. `None` only if pending.&quot;&quot;&quot;</span>
 </span><span id="Transaction-59"><a href="#Transaction-59"><span class="linenos">59</span></a>    <span class="n">pending</span><span class="p">:</span> <span class="nb">bool</span>
@@ -220,7 +220,7 @@ fidelity_helper    </h1>
                             <div id="Transaction.__init__" class="classattr">
                                 <div class="attr function">
             
-        <span class="name">Transaction</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">acct_num</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">date</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span>,</span><span class="param">	<span class="n">description</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">amount</span><span class="p">:</span> <span class="nb">float</span>,</span><span class="param">	<span class="n">order_number</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">pending</span><span class="p">:</span> <span class="nb">bool</span></span>)</span>
+        <span class="name">Transaction</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">acct_num</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">date</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span>,</span><span class="param">	<span class="n">description</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">amount</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">order_number</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">pending</span><span class="p">:</span> <span class="nb">bool</span></span>)</span>
 
         
     </div>
@@ -270,13 +270,13 @@ fidelity_helper    </h1>
                             </div>
                             <div id="Transaction.amount" class="classattr">
                                 <div class="attr variable">
-            <span class="name">amount</span><span class="annotation">: float</span>
+            <span class="name">amount</span><span class="annotation">: float | None</span>
 
         
     </div>
     <a class="headerlink" href="#Transaction.amount"></a>
     
-            <div class="docstring"><p>Transaction amount in dollars.</p>
+            <div class="docstring"><p>Transaction amount in dollars. May be <code>None</code> if pending.</p>
 </div>
 
 
@@ -649,14 +649,22 @@ fidelity_helper    </h1>
 </span><span id="Fidelity-324"><a href="#Fidelity-324"><span class="linenos">324</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_history_entry_to_transaction</span><span class="p">(</span>
 </span><span id="Fidelity-325"><a href="#Fidelity-325"><span class="linenos">325</span></a>        <span class="n">h</span><span class="p">:</span> <span class="n">GetTransactionsRespHistoryModel</span><span class="p">,</span>
 </span><span id="Fidelity-326"><a href="#Fidelity-326"><span class="linenos">326</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Transaction</span><span class="p">:</span>
-</span><span id="Fidelity-327"><a href="#Fidelity-327"><span class="linenos">327</span></a>        <span class="k">return</span> <span class="n">Transaction</span><span class="p">(</span>
-</span><span id="Fidelity-328"><a href="#Fidelity-328"><span class="linenos">328</span></a>            <span class="n">acct_num</span><span class="o">=</span><span class="n">h</span><span class="o">.</span><span class="n">acctNum</span><span class="p">,</span>
-</span><span id="Fidelity-329"><a href="#Fidelity-329"><span class="linenos">329</span></a>            <span class="n">date</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">h</span><span class="o">.</span><span class="n">date</span><span class="p">,</span> <span class="s2">&quot;%b-</span><span class="si">%d</span><span class="s2">-%Y&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">date</span><span class="p">(),</span>
-</span><span id="Fidelity-330"><a href="#Fidelity-330"><span class="linenos">330</span></a>            <span class="n">description</span><span class="o">=</span><span class="n">h</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
-</span><span id="Fidelity-331"><a href="#Fidelity-331"><span class="linenos">331</span></a>            <span class="n">amount</span><span class="o">=</span><span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[,$]&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">h</span><span class="o">.</span><span class="n">amount</span><span class="p">)),</span> <span class="mi">2</span><span class="p">),</span>
-</span><span id="Fidelity-332"><a href="#Fidelity-332"><span class="linenos">332</span></a>            <span class="n">order_number</span><span class="o">=</span><span class="n">h</span><span class="o">.</span><span class="n">orderNumber</span><span class="p">,</span>
-</span><span id="Fidelity-333"><a href="#Fidelity-333"><span class="linenos">333</span></a>            <span class="n">pending</span><span class="o">=</span><span class="nb">bool</span><span class="p">(</span><span class="n">h</span><span class="o">.</span><span class="n">intradayInd</span><span class="p">),</span>
-</span><span id="Fidelity-334"><a href="#Fidelity-334"><span class="linenos">334</span></a>        <span class="p">)</span>
+</span><span id="Fidelity-327"><a href="#Fidelity-327"><span class="linenos">327</span></a>        <span class="n">pending</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">h</span><span class="o">.</span><span class="n">intradayInd</span><span class="p">)</span>
+</span><span id="Fidelity-328"><a href="#Fidelity-328"><span class="linenos">328</span></a>        <span class="k">try</span><span class="p">:</span>
+</span><span id="Fidelity-329"><a href="#Fidelity-329"><span class="linenos">329</span></a>            <span class="n">amount</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[,$]&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">h</span><span class="o">.</span><span class="n">amount</span><span class="p">)),</span> <span class="mi">2</span><span class="p">)</span>
+</span><span id="Fidelity-330"><a href="#Fidelity-330"><span class="linenos">330</span></a>        <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span id="Fidelity-331"><a href="#Fidelity-331"><span class="linenos">331</span></a>            <span class="k">if</span> <span class="ow">not</span> <span class="n">pending</span><span class="p">:</span>
+</span><span id="Fidelity-332"><a href="#Fidelity-332"><span class="linenos">332</span></a>                <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Unexpected amount string $</span><span class="si">{</span><span class="n">h</span><span class="o">.</span><span class="n">amount</span><span class="si">}</span><span class="s2"> in history entry $</span><span class="si">{</span><span class="n">h</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span id="Fidelity-333"><a href="#Fidelity-333"><span class="linenos">333</span></a>                <span class="k">raise</span> <span class="n">FidelityError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+</span><span id="Fidelity-334"><a href="#Fidelity-334"><span class="linenos">334</span></a>            <span class="n">amount</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="Fidelity-335"><a href="#Fidelity-335"><span class="linenos">335</span></a>        <span class="k">return</span> <span class="n">Transaction</span><span class="p">(</span>
+</span><span id="Fidelity-336"><a href="#Fidelity-336"><span class="linenos">336</span></a>            <span class="n">acct_num</span><span class="o">=</span><span class="n">h</span><span class="o">.</span><span class="n">acctNum</span><span class="p">,</span>
+</span><span id="Fidelity-337"><a href="#Fidelity-337"><span class="linenos">337</span></a>            <span class="n">date</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">h</span><span class="o">.</span><span class="n">date</span><span class="p">,</span> <span class="s2">&quot;%b-</span><span class="si">%d</span><span class="s2">-%Y&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">date</span><span class="p">(),</span>
+</span><span id="Fidelity-338"><a href="#Fidelity-338"><span class="linenos">338</span></a>            <span class="n">description</span><span class="o">=</span><span class="n">h</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
+</span><span id="Fidelity-339"><a href="#Fidelity-339"><span class="linenos">339</span></a>            <span class="n">amount</span><span class="o">=</span><span class="n">amount</span><span class="p">,</span>
+</span><span id="Fidelity-340"><a href="#Fidelity-340"><span class="linenos">340</span></a>            <span class="n">order_number</span><span class="o">=</span><span class="n">h</span><span class="o">.</span><span class="n">orderNumber</span><span class="p">,</span>
+</span><span id="Fidelity-341"><a href="#Fidelity-341"><span class="linenos">341</span></a>            <span class="n">pending</span><span class="o">=</span><span class="n">pending</span><span class="p">,</span>
+</span><span id="Fidelity-342"><a href="#Fidelity-342"><span class="linenos">342</span></a>        <span class="p">)</span>
 </span></pre></div>
 
 

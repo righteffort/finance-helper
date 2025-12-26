@@ -51,8 +51,8 @@ class Transaction:
     """Transaction date. Should be interpreted as midnight America/New_York."""
     description: str
     """Transaction description."""
-    amount: float
-    """Transaction amount in dollars."""
+    amount: float | None
+    """Transaction amount in dollars. May be `None` if pending."""
     order_number: str | None
     """Transaction identifier. Unique for this account. `None` only if pending."""
     pending: bool
@@ -323,13 +323,21 @@ class Fidelity:
     def _history_entry_to_transaction(
         h: GetTransactionsRespHistoryModel,
     ) -> Transaction:
+        pending = bool(h.intradayInd)
+        try:
+            amount = round(float(re.sub(r"[,$]", r"", h.amount)), 2)
+        except ValueError as e:
+            if not pending:
+                msg = f"Unexpected amount string ${h.amount} in history entry ${h}"
+                raise FidelityError(msg) from e
+            amount = None
         return Transaction(
             acct_num=h.acctNum,
             date=datetime.strptime(h.date, "%b-%d-%Y").date(),
             description=h.description,
-            amount=round(float(re.sub(r"[,$]", r"", h.amount)), 2),
+            amount=amount,
             order_number=h.orderNumber,
-            pending=bool(h.intradayInd),
+            pending=pending,
         )
 
 

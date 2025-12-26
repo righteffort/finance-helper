@@ -56,6 +56,21 @@
 
             </li>
             <li>
+                    <a class="class" href="#Account">Account</a>
+                            <ul class="memberlist">
+                        <li>
+                                <a class="function" href="#Account.__init__">Account</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Account.number">number</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Account.name">name</a>
+                        </li>
+                </ul>
+
+            </li>
+            <li>
                     <a class="class" href="#Fidelity">Fidelity</a>
                             <ul class="memberlist">
                         <li>
@@ -91,21 +106,6 @@
                 </ul>
 
             </li>
-            <li>
-                    <a class="class" href="#Account">Account</a>
-                            <ul class="memberlist">
-                        <li>
-                                <a class="function" href="#Account.__init__">Account</a>
-                        </li>
-                        <li>
-                                <a class="variable" href="#Account.number">number</a>
-                        </li>
-                        <li>
-                                <a class="variable" href="#Account.name">name</a>
-                        </li>
-                </ul>
-
-            </li>
     </ul>
 
 
@@ -130,8 +130,7 @@ fidelity_helper    </h1>
 <pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">date</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">fidelity_helper</span><span class="w"> </span><span class="kn">import</span> <span class="n">Fidelity</span>
 
-<span class="c1"># Create Fidelity instance.</span>
-<span class="c1"># In this example the callback delegates to the evaluate method provided by your browser</span>
+<span class="c1"># In this example the callback assumes page.evaluate is provided by your browser</span>
 <span class="c1"># automation framework.</span>
 <span class="n">fidelity</span> <span class="o">=</span> <span class="n">Fidelity</span><span class="p">(</span><span class="k">lambda</span> <span class="n">expr</span><span class="p">:</span> <span class="n">page</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">await_promise</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
 
@@ -160,26 +159,25 @@ fidelity_helper    </h1>
 </span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a><span class="sd">from datetime import date</span>
 </span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a><span class="sd">from fidelity_helper import Fidelity</span>
 </span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a>
-</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="sd"># Create Fidelity instance.</span>
-</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="sd"># In this example the callback delegates to the evaluate method provided by your browser</span>
-</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="sd"># automation framework.</span>
-</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="sd">fidelity = Fidelity(lambda expr: page.evaluate(expr, await_promise=True))</span>
-</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a>
-</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a><span class="sd"># Get transactions for specific accounts and date range</span>
-</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a><span class="sd">transactions = await fidelity.get_transactions(</span>
-</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a><span class="sd">    accounts=[&quot;123456789&quot;, &quot;987654321&quot;], start=date(2024, 1, 1), end=date(2024, 1, 31)</span>
-</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a><span class="sd">)</span>
-</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a>
-</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a><span class="sd">for t in transactions:</span>
-</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a><span class="sd">    print(f&quot;{t.date}\t${t.amount}\t{t.description}&quot;)</span>
-</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a><span class="sd">```</span>
-</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a><span class="sd">See [fidelity_example.py](https://github.com/righteffort/finance-helper/python/fidelity-example/fidelity_example.py) for a working example.</span>
-</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a><span class="sd">&quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
-</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a>
-</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.fidelity</span><span class="w"> </span><span class="kn">import</span> <span class="n">Account</span><span class="p">,</span> <span class="n">Fidelity</span><span class="p">,</span> <span class="n">FidelityError</span><span class="p">,</span> <span class="n">Transaction</span>
+</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="sd"># In this example the callback assumes page.evaluate is provided by your browser</span>
+</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="sd"># automation framework.</span>
+</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="sd">fidelity = Fidelity(lambda expr: page.evaluate(expr, await_promise=True))</span>
+</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a>
+</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a><span class="sd"># Get transactions for specific accounts and date range</span>
+</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a><span class="sd">transactions = await fidelity.get_transactions(</span>
+</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a><span class="sd">    accounts=[&quot;123456789&quot;, &quot;987654321&quot;], start=date(2024, 1, 1), end=date(2024, 1, 31)</span>
+</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a><span class="sd">)</span>
+</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a>
+</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a><span class="sd">for t in transactions:</span>
+</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a><span class="sd">    print(f&quot;{t.date}\t${t.amount}\t{t.description}&quot;)</span>
+</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a><span class="sd">```</span>
+</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a><span class="sd">See [fidelity_example.py](https://github.com/righteffort/finance-helper/python/fidelity-example/fidelity_example.py) for a working example.</span>
+</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a><span class="sd">&quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
+</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a>
+</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.fidelity</span><span class="w"> </span><span class="kn">import</span> <span class="n">Account</span><span class="p">,</span> <span class="n">Fidelity</span><span class="p">,</span> <span class="n">FidelityError</span><span class="p">,</span> <span class="n">Transaction</span>
+</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a>
 </span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a>
-</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a>
-</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a><span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Transaction&quot;</span><span class="p">,</span> <span class="s2">&quot;Fidelity&quot;</span><span class="p">,</span> <span class="s2">&quot;FidelityError&quot;</span><span class="p">,</span> <span class="s2">&quot;Account&quot;</span><span class="p">]</span>  <span class="c1"># noqa: RUF022</span>
+</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a><span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Transaction&quot;</span><span class="p">,</span> <span class="s2">&quot;Account&quot;</span><span class="p">,</span> <span class="s2">&quot;Fidelity&quot;</span><span class="p">,</span> <span class="s2">&quot;FidelityError&quot;</span><span class="p">]</span>  <span class="c1"># noqa: RUF022</span>
 </span></pre></div>
 
 
@@ -305,6 +303,72 @@ fidelity_helper    </h1>
     <a class="headerlink" href="#Transaction.pending"></a>
     
             <div class="docstring"><p>True iff transaction is pending.</p>
+</div>
+
+
+                            </div>
+                </section>
+                <section id="Account">
+                            <input id="Account-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr class">
+                    <div class="decorator decorator-dataclass">@dataclass</div>
+
+    <span class="def">class</span>
+    <span class="name">Account</span>:
+
+                <label class="view-source-button" for="Account-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#Account"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Account-36"><a href="#Account-36"><span class="linenos">36</span></a><span class="nd">@dataclass</span>
+</span><span id="Account-37"><a href="#Account-37"><span class="linenos">37</span></a><span class="k">class</span><span class="w"> </span><span class="nc">Account</span><span class="p">:</span>
+</span><span id="Account-38"><a href="#Account-38"><span class="linenos">38</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Fidelity account.&quot;&quot;&quot;</span>
+</span><span id="Account-39"><a href="#Account-39"><span class="linenos">39</span></a>
+</span><span id="Account-40"><a href="#Account-40"><span class="linenos">40</span></a>    <span class="n">number</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="Account-41"><a href="#Account-41"><span class="linenos">41</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Fidelity account number.&quot;&quot;&quot;</span>
+</span><span id="Account-42"><a href="#Account-42"><span class="linenos">42</span></a>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="Account-43"><a href="#Account-43"><span class="linenos">43</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Fidelity account name selected by the account owner.&quot;&quot;&quot;</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Fidelity account.</p>
+</div>
+
+
+                            <div id="Account.__init__" class="classattr">
+                                <div class="attr function">
+            
+        <span class="name">Account</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">number</span><span class="p">:</span> <span class="nb">str</span>, </span><span class="param"><span class="n">name</span><span class="p">:</span> <span class="nb">str</span></span>)</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Account.__init__"></a>
+    
+    
+
+                            </div>
+                            <div id="Account.number" class="classattr">
+                                <div class="attr variable">
+            <span class="name">number</span><span class="annotation">: str</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Account.number"></a>
+    
+            <div class="docstring"><p>Fidelity account number.</p>
+</div>
+
+
+                            </div>
+                            <div id="Account.name" class="classattr">
+                                <div class="attr variable">
+            <span class="name">name</span><span class="annotation">: str</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Account.name"></a>
+    
+            <div class="docstring"><p>Fidelity account name selected by the account owner.</p>
 </div>
 
 
@@ -1029,72 +1093,6 @@ fidelity_helper    </h1>
 </div>
 
 
-                </section>
-                <section id="Account">
-                            <input id="Account-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
-<div class="attr class">
-                    <div class="decorator decorator-dataclass">@dataclass</div>
-
-    <span class="def">class</span>
-    <span class="name">Account</span>:
-
-                <label class="view-source-button" for="Account-view-source"><span>View Source</span></label>
-
-    </div>
-    <a class="headerlink" href="#Account"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Account-36"><a href="#Account-36"><span class="linenos">36</span></a><span class="nd">@dataclass</span>
-</span><span id="Account-37"><a href="#Account-37"><span class="linenos">37</span></a><span class="k">class</span><span class="w"> </span><span class="nc">Account</span><span class="p">:</span>
-</span><span id="Account-38"><a href="#Account-38"><span class="linenos">38</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Fidelity account.&quot;&quot;&quot;</span>
-</span><span id="Account-39"><a href="#Account-39"><span class="linenos">39</span></a>
-</span><span id="Account-40"><a href="#Account-40"><span class="linenos">40</span></a>    <span class="n">number</span><span class="p">:</span> <span class="nb">str</span>
-</span><span id="Account-41"><a href="#Account-41"><span class="linenos">41</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Fidelity account number.&quot;&quot;&quot;</span>
-</span><span id="Account-42"><a href="#Account-42"><span class="linenos">42</span></a>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
-</span><span id="Account-43"><a href="#Account-43"><span class="linenos">43</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Fidelity account name selected by the account owner.&quot;&quot;&quot;</span>
-</span></pre></div>
-
-
-            <div class="docstring"><p>Fidelity account.</p>
-</div>
-
-
-                            <div id="Account.__init__" class="classattr">
-                                <div class="attr function">
-            
-        <span class="name">Account</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">number</span><span class="p">:</span> <span class="nb">str</span>, </span><span class="param"><span class="n">name</span><span class="p">:</span> <span class="nb">str</span></span>)</span>
-
-        
-    </div>
-    <a class="headerlink" href="#Account.__init__"></a>
-    
-    
-
-                            </div>
-                            <div id="Account.number" class="classattr">
-                                <div class="attr variable">
-            <span class="name">number</span><span class="annotation">: str</span>
-
-        
-    </div>
-    <a class="headerlink" href="#Account.number"></a>
-    
-            <div class="docstring"><p>Fidelity account number.</p>
-</div>
-
-
-                            </div>
-                            <div id="Account.name" class="classattr">
-                                <div class="attr variable">
-            <span class="name">name</span><span class="annotation">: str</span>
-
-        
-    </div>
-    <a class="headerlink" href="#Account.name"></a>
-    
-            <div class="docstring"><p>Fidelity account name selected by the account owner.</p>
-</div>
-
-
-                            </div>
                 </section>
     </main>
 </body>

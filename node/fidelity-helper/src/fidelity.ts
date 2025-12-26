@@ -70,36 +70,35 @@ export class Fidelity {
   /**
    * Retrieve transactions for the logged in user.
    * @param accounts - list of Fidelity account numbers to retrieve.
-   * @param start - start date, inclusive. Should have time 00:00:00 and timezone UTC, but represent America/New_York.
-   * @param end - end date, inclusive. Should have time 00:00:00 and timezone UTC, but represent America/New_York.
+   * @param start - start date, inclusive. Date with 00:00:00 and timezone UTC, or YYYY-MM-DD string. Interpreted as midnight America/New_York.
+   * @param end - end date, inclusive. See description of start.
    * @returns Transactions for accounts between [start, end].
    * @throws {FidelityError} if there is any error retrieving the transactions.
    */
-  async getTransactions(accounts: string[], start: Date, end: Date): Promise<Transaction[]> {
-    const dateMessage = [Fidelity.checkDate(start), Fidelity.checkDate(end)].filter(m => m.length > 0).join('; ');
-    if (dateMessage.length > 0) {
-      throw new FidelityError(`Invalid date(s): ${dateMessage}`);
-    }
+  async getTransactions(accounts: string[], start: Date | string, end: Date | string): Promise<Transaction[]> {
+    const startDate = start instanceof Date ? start : new Date(`${start}T00:00:00Z`);
+    const endDate = end instanceof Date ? end : new Date(`${end}T00:00:00Z`);
+    Fidelity.checkStartEnd(startDate, endDate);
     const acctDict = new Map<string, Account | null>();
     for (const acct of accounts) {
       acctDict.set(acct, await this.getAccount(acct));
     }
-    
+
     const missing = Array.from(acctDict.entries())
       .filter(([, account]) => account === null)
       .map(([acctNum]) => acctNum);
-    
+
     if (missing.length > 0) {
       throw new FidelityError(`Account(s) not found: ${missing.join(', ')}`);
     }
-    
+
     const accts = Array.from(acctDict.values()).filter((a): a is Account => a !== null);
-    
+
     const respJson = await this.fetch(
       'https://digital.fidelity.com/ftgw/digital/webactivity/api/graphql?ref_at=activity',
-      Fidelity.getTransactionsOptions(accts, start, end)
+      Fidelity._getTransactionsOptions(accts, startDate, endDate)
     );
-    
+
     try {
       const resp = respJson as GetTransactionsRespModel;
       const historys = resp.data.getTransactions.historys;
@@ -120,15 +119,15 @@ export class Fidelity {
   /**
    * Return the options argument for calling fetch to get transactions.
    * @param accounts - list of Fidelity accounts to retrieve.
-   * @param start - start date, inclusive. Treated as midnight America/New_York.
-   * @param end - end date, inclusive. Treated as midnight America/New_York.
+   * @param start - start date, inclusive. Date with 00:00:00 and timezone UTC, or YYYY-MM-DD string. Interpreted as midnight America/New_York.
+   * @param end - end date, inclusive. See description of start.
    * @returns JSON-compatible object options argument for fetch call.
    */
-  static getTransactionsOptions(accounts: Account[], start: Date, end: Date): object {
-    const context = {
-      body: JSON.stringify(JSON.stringify(Fidelity.getTransactionsBody(accounts, start, end)))
-    };
-    return JSON.parse(Mustache.render(Fidelity.getTransactionsOptionsTemplate(), context));
+  static getTransactionsOptions(accounts: Account[], start: Date | string, end: Date | string): object {
+    const startDate = start instanceof Date ? start : new Date(`${start}T00:00:00Z`);
+    const endDate = end instanceof Date ? end : new Date(`${end}T00:00:00Z`);
+    Fidelity.checkStartEnd(startDate, endDate);
+    return Fidelity._getTransactionsOptions(accounts, startDate, endDate);
   }
 
   /**
@@ -136,13 +135,13 @@ export class Fidelity {
    * @param d - date to convert.
    * @returns Epoch seconds for d interpreted as America/New_York at midnight.
    */
-  static fidelityDate(d: Date): string {
-    const fidelityDate = Temporal.PlainDate.from({
+  static fidelityEpochSeconds(d: Date): string {
+    const fidelityEpochSeconds = Temporal.PlainDate.from({
       year: d.getUTCFullYear(),
       month: d.getUTCMonth() + 1,
       day: d.getUTCDate()
     }).toZonedDateTime(Fidelity.FIDELITY_ZONE)
-    return Math.floor(fidelityDate.epochMilliseconds / 1000).toString();
+    return Math.floor(fidelityEpochSeconds.epochMilliseconds / 1000).toString();
   }
 
   /**
@@ -188,12 +187,23 @@ export class Fidelity {
     return resp.json;
   }
 
-  private static checkDate(d: Date): string {
-    const dayOffset = d.getUTCHours() + d.getUTCMinutes() / 60 + d.getUTCSeconds() / 3600 + d.getUTCMilliseconds() / 3600000;
-    if (dayOffset != 0) {
-      return `not exact day: ${dayOffset} hours`;
+  private static _getTransactionsOptions(accounts: Account[], start: Date, end: Date): object {
+    const context = {
+      body: JSON.stringify(JSON.stringify(Fidelity.getTransactionsBody(accounts, start, end)))
+    };
+    return JSON.parse(Mustache.render(Fidelity.getTransactionsOptionsTemplate(), context));
+  }
+
+  private static checkStartEnd(start: Date, end: Date) {
+    const checkDate = (d: Date) => {
+      const dayOffset = d.getUTCHours() + d.getUTCMinutes() / 60 + d.getUTCSeconds() / 3600 + d.getUTCMilliseconds() / 3600000;
+      return dayOffset != 0 ? `not exact day: ${dayOffset} hours` : "";
+    };
+    const outOfOrder = start > end ? "start > end" : "";
+    const dateMessage = [checkDate(start), checkDate(end), outOfOrder].filter(m => m.length > 0).join('; ');
+    if (dateMessage.length > 0) {
+      throw new FidelityError(`Invalid date(s): ${dateMessage}`);
     }
-    return "";
   }
 
   private async getAccount(account: string): Promise<Account | null> {
@@ -214,21 +224,21 @@ export class Fidelity {
       'https://digital.fidelity.com/ftgw/digital/portfolio/api/graphql?ref_at=portsum',
       Fidelity.getAccountsOptions()
     );
-    
+
     try {
       const resp = respJson as GetAccountsRespModel;
       const context = resp.data.getContext;
       const status = context.sysStatus.backend.account;
-      
+
       if (status.toLowerCase() !== 'ok') {
         throw new FidelityError(`Fidelity backend not ok ${status}`);
       }
-      
+
       const accounts = context.person.assets.map(a => ({
         number: a.acctNum,
         name: a.preferenceDetail.name
       }));
-      
+
       const accountMap = new Map<string, Account>();
       accounts.forEach(a => accountMap.set(a.number, a));
       return accountMap;
@@ -243,13 +253,13 @@ export class Fidelity {
       name: Fidelity.encodeAccountName(a.name),
       last: i === accounts.length - 1
     }));
-    
+
     const context = {
       accounts: accountDicts,
-      start: Fidelity.fidelityDate(start),
-      end: Fidelity.fidelityDate(end)
+      start: Fidelity.fidelityEpochSeconds(start),
+      end: Fidelity.fidelityEpochSeconds(end)
     };
-    
+
     const body = Mustache.render(Fidelity.getTransactionsBodyTemplate(), context);
     return JSON.parse(body) as GetTransactionsReqModel;  // TODO(aider): this needs to fail at runtime if body does not conform to the model, as happens with pydantic.
   }
@@ -268,7 +278,7 @@ export class Fidelity {
     const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
 
     const amount = parseFloat(h.amount.replace(/[,$]/g, ''));
-    
+
     return {
       acct_num: h.acctNum,
       date: date,

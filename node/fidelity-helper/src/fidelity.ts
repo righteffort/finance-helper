@@ -30,8 +30,8 @@ export interface Transaction {
   date: Date;
   /** Transaction description. */
   description: string;
-  /** Transaction amount in dollars. */
-  amount: number;
+  /** Transaction amount in dollars. May be undefined if pending. */
+  amount: number | undefined;
   /** Transaction identifier. Unique for this account. undefined only if pending. */
   order_number: string | undefined;
   /** True iff transaction is pending. */
@@ -266,14 +266,19 @@ export class Fidelity {
     // Parse date as UTC with time 00:00:00, representing America/New_York
     const d = new Date(h.date);
     const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-
-    const amount = parseFloat(h.amount.replace(/[,$]/g, ''));
-    
+    const amount_str = h.amount.replace(/[,$]/g, '');
+    let amount: number | undefined = undefined;
+    if (amount_str.trim() != '') {
+      amount = Math.round(parseFloat(amount_str) * 100) / 100;
+      if (isNaN(amount)) {
+	amount = undefined;
+      }
+    }
     return {
       acct_num: h.acctNum,
       date: date,
       description: h.description,
-      amount: Math.round(amount * 100) / 100,
+      amount: amount,
       order_number: h.orderNumber || undefined,
       pending: h.intradayInd
     };

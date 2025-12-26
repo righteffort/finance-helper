@@ -1,7 +1,7 @@
 {
   "name": "@righteffort/fidelity-helper",
   "description": "Fetch Fidelity transactions",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "Ted Romer <tromer@gmail.com>",
   "license": "MIT",
   "keywords": [

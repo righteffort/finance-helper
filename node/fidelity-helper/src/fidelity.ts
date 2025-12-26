@@ -12,7 +12,6 @@ import type {
   GetTransactionsRespHistoryModel,
   GetTransactionsReqModel,
   GetAccountsRespModel,
-  GetTransactionsFetchOptionsPartial
 } from './fidelity-models.js';
 
 /** Fidelity account. */
@@ -157,14 +156,14 @@ export class Fidelity {
 
   /**
    * Human-friendly rendering of options used to get transactions.
-   * @param options - JSON-compatible object for fetch options arg.
+   * @param options - fetch options arg, e.g. result of {@link getTransactionsOptions}.
    * @returns Printable string with embedded JSON strings parsed into objects.
    */
-  static printFetchTransactionsOptions(options: GetTransactionsFetchOptionsPartial): string {
+  static printFetchTransactionsOptions(options: { body: string; [key: string]: unknown }): string {
     const {body, ...optionsMinusBody} = options;
     const bodyObj = JSON.parse(body) as GetTransactionsReqModel;
     const {query, ...bodyMinusQuery} = bodyObj;
-    
+
     return [
       `options_minus_body=${JSON.stringify(optionsMinusBody, null, 2)}`,
       `body_minus_query=${JSON.stringify(bodyMinusQuery, null, 2)}`,

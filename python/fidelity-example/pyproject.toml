@@ -1,6 +1,6 @@
 [project]
 name = "fidelity-example"
-version = "0.1.0"
+version = "0.1.1"
 description = "Example of using fidelity-helper"
 license = "MIT"
 authors = [
@@ -8,12 +8,9 @@ authors = [
 ]
 requires-python = ">=3.10"
 dependencies = [
-    "fidelity-helper",
+    "fidelity-helper>=0.1.1",
     "zendriver>=0.15.2",
 ]
-
-[tool.uv.sources]
-fidelity-helper = { path = "../fidelity-helper", editable = true }
 
 [dependency-groups]
 dev = [

@@ -70,7 +70,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "fidelity-helper", editable = "../fidelity-helper" },
+    { name = "fidelity-helper", specifier = ">=0.1.1" },
     { name = "zendriver", specifier = ">=0.15.2" },
 ]
 
@@ -82,27 +82,15 @@ dev = [
 
 [[package]]
 name = "fidelity-helper"
-version = "0.1.0"
-source = { editable = "../fidelity-helper" }
+version = "0.1.1"
+source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "pydantic" },
     { name = "pystache" },
 ]
-
-[package.metadata]
-requires-dist = [
-    { name = "pydantic", specifier = ">=2.12.5" },
-    { name = "pystache", specifier = ">=0.6.8" },
-]
-
-[package.metadata.requires-dev]
-dev = [
-    { name = "aiofiles", specifier = ">=25.1.0" },
-    { name = "basedpyright", specifier = ">0" },
-    { name = "pdoc", specifier = ">=16.0.0" },
-    { name = "pytest", specifier = ">0" },
-    { name = "pytest-asyncio", specifier = ">=1.3.0" },
-    { name = "ruff", specifier = ">0" },
+sdist = { url = "https://files.pythonhosted.org/packages/99/e8/569701fa7dbd92d16103dd539324991e9ef2216ff8ba965df24cbc5bbe0b/fidelity_helper-0.1.1.tar.gz", hash = "sha256:7c63802e6949eebe3ce97d9cede5c49443a9bf8ebb9a102267ba4f96a7df0320", size = 7252, upload-time = "2025-12-26T20:47:32.89Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/8c/79/1cf13c75aa08232579799be7b03528179b607dc7b195e35b50a0a8c6901e/fidelity_helper-0.1.1-py3-none-any.whl", hash = "sha256:2f29c27ca6ae914c126ae630e8d76e669622c200108b0f284604ffca904d56b3", size = 9640, upload-time = "2025-12-26T20:47:31.621Z" },
 ]
 
 [[package]]

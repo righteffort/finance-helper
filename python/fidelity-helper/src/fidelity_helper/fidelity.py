@@ -51,12 +51,14 @@ class Transaction:
     """Transaction date. Should be interpreted as midnight America/New_York."""
     description: str
     """Transaction description."""
-    amount: float | None
-    """Transaction amount in dollars. May be `None` if pending."""
-    order_number: str | None
-    """Transaction identifier. Unique for this account. `None` only if pending."""
     pending: bool
     """True iff transaction is pending."""
+    cash_balance: float | None = None
+    """Cash balance as of this transaction. `None` only if pending."""
+    amount: float | None = None
+    """Transaction amount in dollars. May be `None` if pending."""
+    order_number: str | None = None
+    """Transaction identifier. Unique for this account. `None` only if pending."""
 
 
 class Fidelity:
@@ -87,6 +89,8 @@ class Fidelity:
 
         Returns:
             Transactions for accounts between [start, end].
+
+        Note: cash_balance not returned if len(accounts) > 1
 
         Raises:
             FidelityError: if there is any error retrieving the transactions.
@@ -324,21 +328,31 @@ class Fidelity:
         h: GetTransactionsRespHistoryModel,
     ) -> Transaction:
         pending = bool(h.intradayInd)
-        try:
-            amount = round(float(re.sub(r"[,$]", r"", h.amount)), 2)
-        except ValueError as e:
-            if not pending:
-                msg = f"Unexpected amount string ${h.amount} in history entry ${h}"
-                raise FidelityError(msg) from e
-            amount = None
+        amount = Fidelity._amount_string_to_float(h.amount)
+        if amount is None and not pending:
+            msg = f"Unexpected amount string {h.amount} in history entry {h}"
+            raise FidelityError(msg)
+        cash_balance = (
+            Fidelity._amount_string_to_float(h.cashBalance)
+            if h.cashBalance is not None
+            else None
+        )
         return Transaction(
             acct_num=h.acctNum,
+            cash_balance=cash_balance,
             date=datetime.strptime(h.date, "%b-%d-%Y").date(),
             description=h.description,
             amount=amount,
             order_number=h.orderNumber,
             pending=pending,
         )
+
+    @staticmethod
+    def _amount_string_to_float(s: str) -> float | None:
+        try:
+            return round(float(re.sub(r"[,$]", r"", s)), 2)
+        except ValueError:
+            return None
 
 
 class _FetchResp(TypedDict):

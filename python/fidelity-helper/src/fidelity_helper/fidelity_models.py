@@ -47,6 +47,7 @@ class GetTransactionsRespHistoryModel(BaseModel):
 
     acctNum: str
     amount: str
+    cashBalance: str | None
     date: str
     description: str
     intradayInd: bool

@@ -19,21 +19,21 @@
             "txnCatCode": "DV",
             "txnCatDesc": "Dividend / Interest",
             "txnSubCatCode": "VP",
-            "cashBalance": null,
+            "cashBalance": "+$37.29",
             "__typename": "History"
           },
           {
             "acctNum": "1234",
             "orderNumber": null,
             "intradayInd": true,
-            "description": "pending description",
+            "description": "pending description and cash balance",
             "date": "Dec-02-2025",
             "amount": "+$0.01",
             "txnTypeCode": "IT",
             "txnCatCode": "DV",
             "txnCatDesc": "Dividend / Interest",
             "txnSubCatCode": "VP",
-            "cashBalance": null,
+            "cashBalance": "Processing",
             "__typename": "History"
           },
           {
@@ -47,21 +47,21 @@
             "txnCatCode": "AT",
             "txnCatDesc": "ATM - Debit Card Activity",
             "txnSubCatCode": "DC",
-            "cashBalance": null,
+            "cashBalance": "+$19.63",
             "__typename": "History"
           },
           {
             "acctNum": "1234",
             "orderNumber": null,
             "intradayInd": true,
-            "description": "weird amount",
+            "description": "weird amount and cash balance",
             "date": "Nov-29-2025",
             "amount": "--",
             "txnTypeCode": "IT",
             "txnCatCode": "ZZ",
             "txnCatDesc": "Other",
             "txnSubCatCode": "ST",
-            "cashBalance": null,
+            "cashBalance": "nocare",
             "__typename": "History"
           }
         ],

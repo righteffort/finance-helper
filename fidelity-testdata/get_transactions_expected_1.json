@@ -1,6 +1,7 @@
 [
   {
     "acct_num": "1234",
+    "cash_balance": 37.29,
     "date": "2025-11-28T00:00:00.000Z",
     "description": "some description",
     "amount": 3.14,
@@ -10,12 +11,13 @@
   {
     "acct_num": "1234",
     "date": "2025-12-02T00:00:00.000Z",
-    "description": "pending description",
+    "description": "pending description and cash balance",
     "amount": 0.01,
     "pending": true
   },
   {
     "acct_num": "5678",
+    "cash_balance": 19.63,
     "date": "2025-12-01T00:00:00.000Z",
     "description": "another description",
     "amount": -2.17,
@@ -25,7 +27,7 @@
   {
     "acct_num": "1234",
     "date": "2025-11-29T00:00:00.000Z",
-    "description": "weird amount",
+    "description": "weird amount and cash balance",
     "pending": true
   }
 ]

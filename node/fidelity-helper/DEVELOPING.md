@@ -2,5 +2,5 @@
 ```bash
 yarn package
 # npm adduser  # If needed
-npm publish package.tgz
+npm publish --access public package.tgz
 ```

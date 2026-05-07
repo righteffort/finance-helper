@@ -54,7 +54,8 @@ class Transaction:
     pending: bool
     """True iff transaction is pending."""
     cash_balance: float | None = None
-    """Cash balance as of this transaction. `None` only if pending."""
+    """Cash balance as of this transaction. `None` if pending or if cashBalance is
+    absent (e.g. multi-account query)."""
     amount: float | None = None
     """Transaction amount in dollars. May be `None` if pending."""
     order_number: str | None = None

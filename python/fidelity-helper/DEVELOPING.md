@@ -1,5 +1,5 @@
 ## Publish
 ```bash
 uv build
-uv publish --token $(cat ~/.pypitoken)
+UV_PUBLISH_TOKEN=$(cat ~/.pypitoken) uv publish
 ```

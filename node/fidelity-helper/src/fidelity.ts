@@ -275,7 +275,7 @@ export class Fidelity {
       throw new FidelityError(`Unexpected amount string ${h.amount} in history entry ${JSON.stringify(h)}`);
     }
     const cashBalance = Fidelity.amountStringToFloat(h.cashBalance);
-    if (cashBalance === undefined && !pending) {
+    if (cashBalance === undefined && h.cashBalance !== undefined && !pending) {
       throw new FidelityError(`Unexpected cashBalance string ${h.cashBalance} in history entry ${JSON.stringify(h)}`);
     }
     return {

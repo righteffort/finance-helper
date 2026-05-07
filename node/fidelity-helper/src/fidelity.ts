@@ -25,15 +25,18 @@ export interface Account {
 /** Fidelity transaction. */
 export interface Transaction {
   /** Fidelity account number. */
-  acct_num: string;
+  acctNum: string;
+  /** Transaction amount in dollars. May be omitted if pending. */
+  amount?: number;
+  /** Cash balance as of this transaction. Omitted if either
+  requesting multiple accounts, or if transaction is pending. */
+  cashBalance?: number;
   /** Transaction date. Will always have time 00:00:00, time zone UTC but represent America/New_York. */
   date: Date;
   /** Transaction description. */
   description: string;
-  /** Transaction amount in dollars. May be undefined if pending. */
-  amount: number | undefined;
-  /** Transaction identifier. Unique for this account. undefined only if pending. */
-  order_number: string | undefined;
+  /** Transaction identifier. Unique for this account. Omitted only if pending. */
+  orderNumber?: string;
   /** True iff transaction is pending. */
   pending: boolean;
 }
@@ -264,24 +267,38 @@ export class Fidelity {
 
   private static historyEntryToTransaction(h: GetTransactionsRespHistoryModel): Transaction {
     // Parse date as UTC with time 00:00:00, representing America/New_York
+    const pending = h.intradayInd;
     const d = new Date(h.date);
     const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-    const amount_str = h.amount.replace(/[,$]/g, '');
-    let amount: number | undefined = undefined;
-    if (amount_str.trim() != '') {
-      amount = Math.round(parseFloat(amount_str) * 100) / 100;
-      if (isNaN(amount)) {
-	amount = undefined;
-      }
+    const amount = Fidelity.amountStringToFloat(h.amount);
+    if (amount === undefined && !pending) {
+      throw new FidelityError(`Unexpected amount string ${h.amount} in history entry ${JSON.stringify(h)}`);
+    }
+    const cashBalance = Fidelity.amountStringToFloat(h.cashBalance);
+    if (cashBalance === undefined && h.cashBalance !== undefined && !pending) {
+      throw new FidelityError(`Unexpected cashBalance string ${h.cashBalance} in history entry ${JSON.stringify(h)}`);
     }
     return {
-      acct_num: h.acctNum,
+      acctNum: h.acctNum,
+      ...(amount !== undefined && {amount}),
+      ...(cashBalance !== undefined && {cashBalance}),
       date: date,
       description: h.description,
-      amount: amount,
-      order_number: h.orderNumber || undefined,
-      pending: h.intradayInd
+      ...(h.orderNumber !== undefined && h.orderNumber != null && {orderNumber: h.orderNumber}),
+      pending
     };
+  }
+
+  private static amountStringToFloat(s: string | undefined): number | undefined {
+    if (s === undefined) {
+      return undefined;
+    }
+    const amount_str = s.replace(/[,$]/g, '').trim();
+    const amount = Math.round(parseFloat(amount_str) * 100) / 100;
+    if (isNaN(amount)) {
+      return undefined;
+    }
+    return amount;
   }
 }
 

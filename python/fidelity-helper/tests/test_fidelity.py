@@ -1,5 +1,7 @@
 import json
+from dataclasses import asdict
 from datetime import date
+from pathlib import Path
 from typing import cast
 from unittest.mock import patch
 
@@ -10,16 +12,29 @@ from fidelity_helper.fidelity import Account, Fidelity
 from fidelity_helper.fidelity_models import GetTransactionsReqModel
 
 
+def get_suffixes() -> list[str]:
+    """Discover available test suffixes from testdata directory."""
+    return sorted(
+        p.stem.removeprefix("mock_get_accounts_response_")
+        for p in Path("testdata").glob("mock_get_accounts_response_*.json")
+    )
+
+
 class MockEvaluator:
+    def __init__(self, suffix: str) -> None:
+        self.suffix = suffix
+
     async def __call__(self, code: str) -> object:
         """Helper function to mock fetch responses based on URL in the code."""
         if "ftgw/digital/portfolio/api/graphql?ref_at=portsum" in code:
-            async with aiofiles.open("testdata/mock_get_accounts_response.json") as f:
+            async with aiofiles.open(
+                f"testdata/mock_get_accounts_response_{self.suffix}.json"
+            ) as f:
                 content = await f.read()
                 return cast(object, json.loads(content))
         elif "ftgw/digital/webactivity/api/graphql?ref_at=activity" in code:
             async with aiofiles.open(
-                "testdata/mock_get_transactions_response.json"
+                f"testdata/mock_get_transactions_response_{self.suffix}.json"
             ) as f:
                 content = await f.read()
                 return cast(object, json.loads(content))
@@ -41,10 +56,16 @@ def test_get_transactions_options() -> None:
 
 
 @pytest.mark.asyncio
-async def test_get_transactions() -> None:
-    mock_evaluator = MockEvaluator()
+@pytest.mark.parametrize("suffix", get_suffixes())
+async def test_get_transactions(suffix: str) -> None:
+    config = cast(
+        dict[str, list[str]],
+        json.loads(Path(f"testdata/config_{suffix}.json").read_text()),
+    )
+
+    mock_evaluator = MockEvaluator(suffix)
     fidelity = Fidelity(mock_evaluator)
-    accounts = ["1234", "5678"]
+    accounts: list[str] = config["accounts"]
     start = date(2025, 11, 28)
     end = date(2025, 12, 2)
 
@@ -59,24 +80,18 @@ async def test_get_transactions() -> None:
     assert search_criteria_detail.txnFromDate == "1764306000"
     assert search_criteria_detail.txnToDate == "1764651600"
 
-    # Load expected results
-    async with aiofiles.open("testdata/get_transactions_expected.json") as f:
+    async with aiofiles.open(f"testdata/get_transactions_expected_{suffix}.json") as f:
         content = await f.read()
         expected = cast(object, json.loads(content))
 
-    # Convert transactions to dict format for comparison
     actual: list[dict[str, str | float | bool]] = []
     for t in transactions:
-        d: dict[str, str | float | bool] = {
-            "acct_num": t.acct_num,
-            "date": f"{t.date.isoformat()}T00:00:00.000Z",
-            "description": t.description,
-            "pending": t.pending,
+        d = {
+            k: v
+            for k, v in cast(dict[str, str | float | bool | None], asdict(t)).items()
+            if v is not None
         }
-        if t.order_number is not None:
-            d["order_number"] = t.order_number
-        if t.amount is not None:
-            d["amount"] = t.amount
+        d["date"] = f"{t.date.isoformat()}T00:00:00.000Z"
         actual.append(d)
 
     assert actual == expected

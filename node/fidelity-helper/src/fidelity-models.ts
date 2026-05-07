@@ -26,11 +26,12 @@ export interface GetTransactionsReqModel {
 
 export interface GetTransactionsRespHistoryModel {
   acctNum: string;
-  amount: string;
+  amount?: string;
+  cashBalance?: string;
   date: string;
   description: string;
   intradayInd: boolean;
-  orderNumber: string;
+  orderNumber?: string;
 }
 
 export interface GetTransactionsRespModel {

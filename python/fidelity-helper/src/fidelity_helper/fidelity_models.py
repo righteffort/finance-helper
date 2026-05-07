@@ -46,7 +46,8 @@ class GetTransactionsRespHistoryModel(BaseModel):
     """Single transaction in Fidelity response to get_transactions."""
 
     acctNum: str
-    amount: str
+    amount: str | None
+    cashBalance: str | None
     date: str
     description: str
     intradayInd: bool

@@ -42,7 +42,6 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/fidelity_helper"]
-exclude = ["fidelity-templates"]
 
 [tool.hatch.build.targets.sdist]
 include = [
@@ -52,11 +51,8 @@ exclude = [
   "/src/fidelity_helper/fidelity-templates"
 ]
 
-[tool.hatch.build.targets.wheel.force-include]
-"../../fidelity-templates" = "fidelity_helper/fidelity-templates"
-
 [tool.hatch.build.targets.sdist.force-include]
-"../../fidelity-templates" = "fidelity_helper/fidelity-templates"
+"../../fidelity-templates" = "src/fidelity_helper/fidelity-templates"
 
 [tool.pytest.ini_options]
 addopts = [

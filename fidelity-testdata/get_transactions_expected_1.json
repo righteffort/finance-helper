@@ -27,7 +27,16 @@
   {
     "acct_num": "1234",
     "date": "2025-11-29T00:00:00.000Z",
-    "description": "weird amount and cash balance",
+    "description": "weird amount and weird cash balance, pending",
     "pending": true
+  },
+  {
+    "acct_num": "1234",
+    "cash_balance": 37.29,
+    "date": "2025-11-29T00:00:00.000Z",
+    "description": "-- amount, not pending",
+    "amount": 0.00,
+    "order_number": "42",
+    "pending": false
   }
 ]

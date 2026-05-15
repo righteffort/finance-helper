@@ -54,7 +54,7 @@
             "acctNum": "1234",
             "orderNumber": null,
             "intradayInd": true,
-            "description": "weird amount and cash balance",
+            "description": "weird amount and weird cash balance, pending",
             "date": "Nov-29-2025",
             "amount": "--",
             "txnTypeCode": "IT",
@@ -62,6 +62,20 @@
             "txnCatDesc": "Other",
             "txnSubCatCode": "ST",
             "cashBalance": "nocare",
+            "__typename": "History"
+          },
+          {
+            "acctNum": "1234",
+            "orderNumber": "42",
+            "intradayInd": false,
+            "description": "-- amount, not pending",
+            "date": "Nov-29-2025",
+            "amount": "--",
+            "txnTypeCode": "IT",
+            "txnCatCode": "ZZ",
+            "txnCatDesc": "Other",
+            "txnSubCatCode": "ST",
+            "cashBalance": "+$37.29",
             "__typename": "History"
           }
         ],

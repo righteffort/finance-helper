@@ -270,7 +270,8 @@ export class Fidelity {
     const pending = h.intradayInd;
     const d = new Date(h.date);
     const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-    const amount = Fidelity.amountStringToFloat(h.amount);
+    const allowDashDash = !pending;  // sometimes settled transactions have amount "--"
+    const amount = Fidelity.amountStringToFloat(h.amount, allowDashDash);
     if (amount === undefined && !pending) {
       throw new FidelityError(`Unexpected amount string ${h.amount} in history entry ${JSON.stringify(h)}`);
     }
@@ -289,11 +290,14 @@ export class Fidelity {
     };
   }
 
-  private static amountStringToFloat(s: string | undefined): number | undefined {
+  private static amountStringToFloat(s: string | undefined, allowDashDash=false): number | undefined {
     if (s === undefined) {
       return undefined;
     }
     const amount_str = s.replace(/[,$]/g, '').trim();
+    if (amount_str === "--" && allowDashDash) {
+      return 0
+    }
     const amount = Math.round(parseFloat(amount_str) * 100) / 100;
     if (isNaN(amount)) {
       return undefined;

@@ -329,7 +329,10 @@ class Fidelity:
         h: GetTransactionsRespHistoryModel,
     ) -> Transaction:
         pending = bool(h.intradayInd)
-        amount = Fidelity._amount_string_to_float(h.amount)
+        if not pending:
+            amount = Fidelity._amount_string_to_float_allow_dash_dash(h.amount)
+        else:
+            amount = Fidelity._amount_string_to_float(h.amount)
         if amount is None and not pending:
             msg = f"Unexpected amount string {h.amount} in history entry {h}"
             raise FidelityError(msg)
@@ -349,11 +352,17 @@ class Fidelity:
         )
 
     @staticmethod
-    def _amount_string_to_float(s: str) -> float | None:
+    def _amount_string_to_float(s: str | None) -> float | None:
+        if s is None:
+            return None
         try:
             return round(float(re.sub(r"[,$]", r"", s)), 2)
         except ValueError:
             return None
+
+    @staticmethod
+    def _amount_string_to_float_allow_dash_dash(s: str | None) -> float | None:
+        return 0.0 if s == "--" else Fidelity._amount_string_to_float(s)
 
 
 class _FetchResp(TypedDict):

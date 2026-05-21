@@ -43,5 +43,5 @@ jobs:
         run: uv run basedpyright
 
       - name: Test
-        run: uv run test
+        run: uv run pytest
 

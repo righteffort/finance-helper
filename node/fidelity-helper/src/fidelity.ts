@@ -41,9 +41,10 @@ export interface Transaction {
   pending: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type EvaluateFunc = <T>(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   fn: (...args: any[]) => T,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ...args: any[]
 ) => Promise<T>;
 

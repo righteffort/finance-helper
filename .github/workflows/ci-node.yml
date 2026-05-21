@@ -16,6 +16,10 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: node/fidelity-helper
+
     strategy:
       matrix:
         node-version: [20, 22, 24, 26]
@@ -32,13 +36,13 @@ jobs:
         run: corepack enable
 
       - name: Install dependencies
-        run: cd node/fidelity-helper && yarn install --immutable
+        run: yarn install --immutable
 
       - name: Lint and build
-        run: cd node/fidelity-helper && yarn lint && yarn type-check
+        run: yarn lint && yarn type-check
 
       - name: Format
-        run: cd node/fidelity-helper && yarn prettier
+        run: yarn prettier
 
       - name: Test
-        run: cd node/fidelity-helper && yarn test run
+        run: yarn test run

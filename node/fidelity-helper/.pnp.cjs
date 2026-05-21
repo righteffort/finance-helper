@@ -35,6 +35,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:25.0.3"],\
           ["eslint", "virtual:2b0de5875ee93d3200fec62c286d68d0d7c098c99b37979f494742d24b5f69208ef1e7247696261d9c1901d4c580b9374112031b497acdea78c191899553b752#npm:10.4.0"],\
           ["mustache", "npm:4.2.0"],\
+          ["prettier", "npm:3.8.3"],\
           ["typedoc", "virtual:2b0de5875ee93d3200fec62c286d68d0d7c098c99b37979f494742d24b5f69208ef1e7247696261d9c1901d4c580b9374112031b497acdea78c191899553b752#npm:0.28.15"],\
           ["typescript", "patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5"],\
           ["typescript-eslint", "virtual:2b0de5875ee93d3200fec62c286d68d0d7c098c99b37979f494742d24b5f69208ef1e7247696261d9c1901d4c580b9374112031b497acdea78c191899553b752#npm:8.59.4"],\
@@ -526,6 +527,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:25.0.3"],\
           ["eslint", "virtual:2b0de5875ee93d3200fec62c286d68d0d7c098c99b37979f494742d24b5f69208ef1e7247696261d9c1901d4c580b9374112031b497acdea78c191899553b752#npm:10.4.0"],\
           ["mustache", "npm:4.2.0"],\
+          ["prettier", "npm:3.8.3"],\
           ["typedoc", "virtual:2b0de5875ee93d3200fec62c286d68d0d7c098c99b37979f494742d24b5f69208ef1e7247696261d9c1901d4c580b9374112031b497acdea78c191899553b752#npm:0.28.15"],\
           ["typescript", "patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5"],\
           ["typescript-eslint", "virtual:2b0de5875ee93d3200fec62c286d68d0d7c098c99b37979f494742d24b5f69208ef1e7247696261d9c1901d4c580b9374112031b497acdea78c191899553b752#npm:8.59.4"],\
@@ -2371,6 +2373,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/prelude-ls-npm-1.2.1-3e4d272a55-b00d617431.zip/node_modules/prelude-ls/",\
         "packageDependencies": [\
           ["prelude-ls", "npm:1.2.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["prettier", [\
+      ["npm:3.8.3", {\
+        "packageLocation": "./.yarn/unplugged/prettier-npm-3.8.3-ecd857a540/node_modules/prettier/",\
+        "packageDependencies": [\
+          ["prettier", "npm:3.8.3"]\
         ],\
         "linkType": "HARD"\
       }]\

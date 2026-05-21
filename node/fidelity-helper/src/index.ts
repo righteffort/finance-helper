@@ -25,5 +25,5 @@
  * @module
  */
 
-export { Fidelity } from './fidelity.js';
-export type { Account, Transaction, EvaluateFunc } from './fidelity.js';
+export { Fidelity } from "./fidelity.js";
+export type { Account, Transaction, EvaluateFunc } from "./fidelity.js";

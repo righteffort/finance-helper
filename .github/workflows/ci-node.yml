@@ -36,5 +36,8 @@ jobs:
       - name: Lint and build
         run: cd node/fidelity-helper && yarn lint && yarn type-check
 
+      - name: Format
+        run: cd node/fidelity-helper && yarn prettier
+
       - name: Test
         run: cd node/fidelity-helper && yarn test run

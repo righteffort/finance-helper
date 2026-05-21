@@ -1,5 +1,8 @@
 name: CI (Python)
 
+permissions:
+  contents: read
+
 on:
   push:
     branches: [main]

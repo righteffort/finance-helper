@@ -51,6 +51,7 @@ jobs:
   check:
     name: Python CI passed
     if: always()
+    permissions: {}
 
     needs:
       - test

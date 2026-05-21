@@ -53,6 +53,7 @@ jobs:
   check:
     name: Node CI passed
     if: always()
+    permissions: {}
 
     needs:
       - test

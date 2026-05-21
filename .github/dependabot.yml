@@ -2,12 +2,14 @@ version: 2
 
 updates:
   - package-ecosystem: "npm"
-    directories: "/node/**"
+    directories:
+      - "/node/**"
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 0
   - package-ecosystem: "uv"
-    directories: "/python/**"
+    directories:
+      - "/python/**"
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 0

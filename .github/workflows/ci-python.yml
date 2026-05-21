@@ -6,14 +6,8 @@ permissions:
 on:
   push:
     branches: [main]
-    paths: &paths
-      - 'python/**'
-      - '*-templates/**'
-      - '*-testdata/**'
-      - '.github/workflows/ci-python.yml'
   pull_request:
     branches: [main]
-    paths: *paths
   workflow_dispatch:
 
 jobs:

@@ -10,7 +10,7 @@ on:
       - '*-templates/**'
       - '*-testdata/**'
       - '.github/workflows/ci-node.yml'
-   workflow_dispatch:
+  workflow_dispatch:
 
 jobs:
   test:

@@ -1,7 +1,7 @@
 import { readFileSync, readdirSync } from 'fs';
 import { join } from 'path';
 import { Fidelity } from '../src/fidelity.js';
-import type { GetTransactionsFetchInitPartial, GetTransactionsReqModel } from '../src/fidelity-models.js';
+import type { GetTransactionsReqModel } from '../src/fidelity-models.js';
 import { describe, it, expect } from 'vitest';
 
 const TESTDATA = join(__dirname, 'testdata');
@@ -26,7 +26,7 @@ class MockEvaluator {
       if (url.endsWith('ftgw/digital/portfolio/api/graphql?ref_at=portsum')) {
         return JSON.parse(readFileSync(join(TESTDATA, `mock_get_accounts_response_${this.suffix}.json`), 'utf8'));
       } else if (url.endsWith('ftgw/digital/webactivity/api/graphql?ref_at=activity')) {
-        const { body } = args[1] as GetTransactionsFetchInitPartial;
+        const { body } = args[1];
         const bodyObj = JSON.parse(body) as GetTransactionsReqModel;
         expect(bodyObj.variables.searchCriteriaDetail.txnFromDate).toBe(this.expectedStart);
         expect(bodyObj.variables.searchCriteriaDetail.txnToDate).toBe(this.expectedEnd);

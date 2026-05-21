@@ -3,13 +3,14 @@ name: CI (Python)
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
-    paths:
+    paths: &paths
       - 'python/**'
       - '*-templates/**'
       - '*-testdata/**'
       - '.github/workflows/ci-python.yml'
+  pull_request:
+    branches: [main]
+    paths: *paths
   workflow_dispatch:
 
 jobs:
@@ -30,7 +31,7 @@ jobs:
           working-directory: python/fidelity-helper
 
       - name: Lint
-        run: uv run ruff check -q --output-format=github
+        run: cd python/fidelity-helper && uv run ruff check -q --output-format=github
 
       - name: Format
         run: uv run ruff format --diff

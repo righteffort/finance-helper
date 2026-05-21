@@ -3,13 +3,14 @@ name: CI (Node)
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
-    paths:
+    paths: &paths
       - 'node/**'
       - '*-templates/**'
       - '*-testdata/**'
       - '.github/workflows/ci-node.yml'
+  pull_request:
+    branches: [main]
+    paths: *paths
   workflow_dispatch:
 
 jobs:

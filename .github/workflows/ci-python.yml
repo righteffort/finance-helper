@@ -1,0 +1,47 @@
+name: CI (Python)
+
+on:
+  push:
+    branches: [main]
+    paths: &paths
+      - 'python/**'
+      - '*-templates/**'
+      - '*-testdata/**'
+      - '.github/workflows/ci-python.yml'
+  pull_request:
+    branches: [main]
+    paths: *paths
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: python/fidelity-helper
+
+    strategy:
+      matrix:
+        python-version: ['3.10', '3.11', '3.12', '3.13', '3.14']
+      fail-fast: false
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Lint
+        run: uv run ruff check -q --output-format=github
+
+      - name: Format
+        run: uv run ruff format --diff
+
+      - name: Typecheck
+        run: uv run basedpyright
+
+      - name: Test
+        run: uv run pytest
+

@@ -22,7 +22,7 @@
   "engines": {
     "node": ">=20"
   },
-  "packageManager": "yarn@4.12.0",
+  "packageManager": "yarn@4.15.0",
   "type": "module",
   "main": "./dist/index.js",
   "files": [
@@ -39,18 +39,21 @@
     "clean": "rm -rf dist && rm -f package.tgz",
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint src/**/*.ts --fix",
+    "prettier": "prettier {src,tests}/**/*.{js,ts} --check",
+    "prettier:fix": "prettier {src,tests}/**/*.{js,ts} --write",
     "test": "yarn vitest",
-    "type-check": "tsc --project tsconfig.test.json",
+    "type-check": "tsc && tsc --project tsconfig.test.json",
     "package": "yarn clean && yarn build && tar -czf package.tgz --dereference --transform 's,^,package/,' dist src fidelity-templates LICENSE README.md package.json"
   },
   "devDependencies": {
     "@eslint/js": "^9.35.0",
     "@types/mustache": "^4",
     "@types/node": "^25.0.3",
-    "eslint": "^9.35.0",
+    "eslint": "^10.4.0",
+    "prettier": "^3.8.3",
     "typedoc": "^0.28.15",
     "typescript": "^5.9.2",
-    "typescript-eslint": "^8.43.0",
+    "typescript-eslint": "^8.59.4",
     "vitest": "^4.0.16"
   },
   "dependencies": {

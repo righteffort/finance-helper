@@ -1,0 +1,40 @@
+name: CI (Node)
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+    paths:
+      - 'node/**'
+      - '*-templates/**'
+      - '*-testdata/**'
+      - '.github/workflows/ci-node.yml'
+   workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20, 22, 24, 26]
+      fail-fast: false
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: cd node/fidelity-helper && yarn install --immutable
+
+      - name: Lint and build
+        run: cd node/fidelity-helper && yarn lint && yarn type-check
+
+      - name: Test
+        run: cd node/fidelity-helper && yarn test run

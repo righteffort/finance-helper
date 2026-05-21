@@ -40,7 +40,7 @@
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint src/**/*.ts --fix",
     "test": "yarn vitest",
-    "type-check": "tsc --project tsconfig.test.json",
+    "type-check": "tsc && tsc --project tsconfig.test.json",
     "package": "yarn clean && yarn build && tar -czf package.tgz --dereference --transform 's,^,package/,' dist src fidelity-templates LICENSE README.md package.json"
   },
   "devDependencies": {

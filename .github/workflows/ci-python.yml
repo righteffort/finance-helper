@@ -1,5 +1,8 @@
 name: CI (Python)
 
+permissions:
+  contents: read
+
 on:
   push:
     branches: [main]
@@ -45,3 +48,18 @@ jobs:
       - name: Test
         run: uv run pytest
 
+  check:
+    name: Python CI passed
+    if: always()
+    permissions: {}
+
+    needs:
+      - test
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Decide whether all matrix legs passed
+        uses: re-actors/alls-green@05ac9388f0aebcb5727afa17fcccfecd6f8ec5fe  # v1.2.2
+        with:
+          jobs: ${{ toJSON(needs) }}

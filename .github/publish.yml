@@ -65,15 +65,6 @@ jobs:
         id: version
         run: echo "value=$(scripts/bump_version.py node/fidelity-helper/package.json python/fidelity-helper/pyproject.toml)" >> $GITHUB_OUTPUT
 
-      - name: Commit and tag
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add node/*/package.json python/*/pyproject.toml
-          git commit -m "chore: release ${{ steps.version.outputs.value }} [skip ci]"
-          git tag "v${{ steps.version.outputs.value }}"
-          git push --follow-tags
-
       - name: Build and publish Python package
         run: |
           cd python/fidelity-helper
@@ -89,6 +80,15 @@ jobs:
           npm publish --provenance --access public package.tgz
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Commit and tag
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add node/*/package.json python/*/pyproject.toml
+          git commit -m "chore: release ${{ steps.version.outputs.value }} [skip ci]"
+          git tag "v${{ steps.version.outputs.value }}"
+          git push --follow-tags
 
       - name: Create GitHub release
         run: |

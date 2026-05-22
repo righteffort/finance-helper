@@ -54,13 +54,10 @@ def write_version(path: Path, new: str) -> None:
                 in_project = True
             elif re.match(r"^\[", line):
                 in_project = False
-            if in_project and re.match(r"^version\s*=", line):
+            if in_project and re.match(r"^\s*version\s*=", line):
                 line = re.sub(r'"[^"]*"', f'"{new}"', line, count=1)
-                in_project = False  # redundant
                 bumped = True
             out.append(line)
-            if bumped:
-                break
         if not bumped:
             sys.exit(f"Version number not found in {path}")
         path.write_text("".join(out))

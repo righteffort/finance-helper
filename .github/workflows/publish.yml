@@ -1,0 +1,105 @@
+name: Publish
+
+on:
+  schedule:
+    - cron: '0 12 10 * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  check-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.changes.outputs.changed }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Check for changes since last release
+        id: changes
+        run: |
+          LAST_TAG=$(scripts/latest_tag.py)
+          if [ -z "$LAST_TAG" ]; then
+            echo "No previous tag found, proceeding with publish"
+            echo "changed=true" >> $GITHUB_OUTPUT
+          elif [ -z "$(git log $LAST_TAG..HEAD --oneline)" ]; then
+            echo "No changes since $LAST_TAG"
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "Changes found since $LAST_TAG"
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
+  publish:
+    runs-on: ubuntu-latest
+    needs: check-changes
+    if: needs.check-changes.outputs.changed == 'true'
+    environment:
+      name: pypi
+      url: https://pypi.org/p/fidelity-helper
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install node dependencies
+        run: |
+          cd node/fidelity-helper
+          yarn install --immutable
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
+
+      - name: Bump version numbers
+        id: version
+        run: echo "value=$(scripts/bump_version.py node/fidelity-helper/package.json python/fidelity-helper/pyproject.toml)" >> $GITHUB_OUTPUT
+
+      - name: Build Python package
+        run: |
+          cd python/fidelity-helper
+          uv build
+
+      - name: Publish Python package
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: python/fidelity-helper/dist/
+
+      - name: Build and publish Node package
+        run: |
+          cd node/fidelity-helper
+          yarn package
+          npm publish --provenance --access public package.tgz
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Commit and tag
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add node/*/package.json python/*/pyproject.toml
+          git commit -m "chore: release ${{ steps.version.outputs.value }} [skip ci]"
+          git tag "v${{ steps.version.outputs.value }}"
+          git push --follow-tags
+
+      - name: Create GitHub release
+        run: |
+          gh release create "v${{ steps.version.outputs.value }}" \
+            --title "v${{ steps.version.outputs.value }}" \
+            --generate-notes
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

@@ -6,6 +6,7 @@ on:
 permissions:
   contents: write
   id-token: write
+  pull-requests: write
 
 jobs:
   check-changes:
@@ -35,9 +36,9 @@ jobs:
     runs-on: ubuntu-latest
     # TODO: temp disable! needs: check-changes
     # TODO: temp disable! if: needs.check-changes.outputs.changed == 'true'
-    environment:
-      name: pypi
-      url: https://pypi.org/p/fidelity-helper
+    # environment:
+      # name: pypi
+      # url: https://pypi.org/p/fidelity-helper
 
     steps:
       - uses: actions/checkout@v6

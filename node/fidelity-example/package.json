@@ -12,7 +12,6 @@
   "dependencies": {
     "@righteffort/fidelity-helper": "^0.1.2",
     "commander": "^14.0.2",
-    "package.json": "^2.0.1",
     "puppeteer": "^24.34.0",
     "yarn.lock": "^0.0.1-security",
     "zod": "^4.2.1"
@@ -20,9 +19,9 @@
   "devDependencies": {
     "@eslint/js": "^9.39.2",
     "@types/node": "^25.0.3",
-    "eslint": "^9.39.2",
+    "eslint": "^10.4.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.9.3",
-    "typescript-eslint": "^8.50.1"
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.59.4"
   }
 }
